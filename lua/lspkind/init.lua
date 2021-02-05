@@ -2,6 +2,9 @@ local lspkind = {}
 
 function lspkind.init(opts)
     with_text = opts['with_text']
+    -- deliberate code repeat to avoid if cond
+    -- or string concat on each symbol
+
     if with_text == true or with_text == nil then
         require('vim.lsp.protocol').CompletionItemKind = {
             ' Text';        -- = 1
