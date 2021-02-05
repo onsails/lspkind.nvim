@@ -9,5 +9,8 @@ This tiny plugin adds vscode-like icons to neovim built-in lsp:
 Wherever you configure lsp put the following lua command:
 
 ```lua
-require('lspkind').init()
+-- commented options are defaults
+require('lspkind').init({
+    -- with_text = true,
+})
 ```
