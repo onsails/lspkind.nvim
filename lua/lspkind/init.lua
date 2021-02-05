@@ -2,6 +2,7 @@ local lspkind = {}
 
 function lspkind.init(opts)
     with_text = opts['with_text']
+
     -- deliberate code repeat to avoid if cond
     -- or string concat on each symbol
 
