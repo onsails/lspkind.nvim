@@ -1,6 +1,8 @@
 local lspkind = {}
 local fmt = string.format
 
+-- if you change or add symbol here
+-- replace corresponding line in readme
 local kind_symbols = {
   Text = '',
   Method = 'ƒ',
