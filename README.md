@@ -33,6 +33,6 @@ require('lspkind').init({
     --   EnumMember = '',
     --   Constant = '',
     --   Struct = ''
-    -- }
+    -- },
 })
 ```
