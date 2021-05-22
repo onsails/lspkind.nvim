@@ -10,30 +10,43 @@ This tiny plugin adds vscode-like pictograms to neovim built-in lsp:
 Wherever you configure lsp put the following lua command:
 
 ```lua
--- commented options are defaults
 require('lspkind').init({
-    -- with_text = true,
-    -- symbol_map = {
-    --   Text = '',
-    --   Method = 'ƒ',
-    --   Function = '',
-    --   Constructor = '',
-    --   Variable = '',
-    --   Class = '',
-    --   Interface = 'ﰮ',
-    --   Module = '',
-    --   Property = '',
-    --   Unit = '',
-    --   Value = '',
-    --   Enum = '了',
-    --   Keyword = '',
-    --   Snippet = '﬌',
-    --   Color = '',
-    --   File = '',
-    --   Folder = '',
-    --   EnumMember = '',
-    --   Constant = '',
-    --   Struct = ''
-    -- },
+    -- enables text annotations
+    --
+    -- default: true
+    with_text = true,
+
+    -- default symbol map
+    -- can be either 'default' or
+    -- 'vscode' for codicon preset
+    --
+    -- default: 'default'
+    preset = 'vscode',
+
+    -- override preset symbols
+    --
+    -- default: {}
+    symbol_map = {
+      Text = '',
+      Method = 'ƒ',
+      Function = '',
+      Constructor = '',
+      Variable = '',
+      Class = '',
+      Interface = 'ﰮ',
+      Module = '',
+      Property = '',
+      Unit = '',
+      Value = '',
+      Enum = '了',
+      Keyword = '',
+      Snippet = '﬌',
+      Color = '',
+      File = '',
+      Folder = '',
+      EnumMember = '',
+      Constant = '',
+      Struct = ''
+    },
 })
 ```
