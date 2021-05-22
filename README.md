@@ -18,7 +18,7 @@ require('lspkind').init({
 
     -- default symbol map
     -- can be either 'default' or
-    -- 'vscode' for codicon preset
+    -- 'vscode' for codicon preset (requires codicons installed)
     --
     -- default: 'default'
     preset = 'vscode',
