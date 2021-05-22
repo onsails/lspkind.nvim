@@ -26,7 +26,7 @@ local kind_presets = {
     Constant = '',
     Struct = ''
   },
-  vscode = {
+  codicons = {
     Text = "",
     Method = "",
     Function = "",

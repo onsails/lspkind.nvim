@@ -18,10 +18,10 @@ require('lspkind').init({
 
     -- default symbol map
     -- can be either 'default' or
-    -- 'vscode' for codicon preset (requires codicons installed)
+    -- 'codicons' for codicon preset (requires vscode-codicons font installed)
     --
     -- default: 'default'
-    preset = 'vscode',
+    preset = 'codicons',
 
     -- override preset symbols
     --
