@@ -96,7 +96,9 @@ function lspkind.init(opts)
     end
   end
 
-  require('vim.lsp.protocol').CompletionItemKind = symbols
+  for k,v in pairs(symbols) do
+    require('vim.lsp.protocol').CompletionItemKind[k] = v
+  end
 end
 
 lspkind.presets = kind_presets
