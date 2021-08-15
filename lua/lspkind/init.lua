@@ -99,4 +99,6 @@ function lspkind.init(opts)
   require('vim.lsp.protocol').CompletionItemKind = symbols
 end
 
+lspkind.presets = kind_presets
+
 return lspkind
