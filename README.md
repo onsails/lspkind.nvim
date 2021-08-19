@@ -55,3 +55,7 @@ require('lspkind').init({
     },
 })
 ```
+
+## Related LSP plugins
+
+[vimway-lsp-diag](https://github.com/onsails/vimway-lsp-diag.nvim) – live render workspace diagnostics in quickfix with current buf errors on top, buffer diagnostics in loclist
