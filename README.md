@@ -7,6 +7,8 @@ This tiny plugin adds vscode-like pictograms to neovim built-in lsp:
 
 ## Configuration
 
+### Option 1: vanilla Neovim LSP
+
 Wherever you configure lsp put the following lua command:
 
 ```lua
@@ -54,6 +56,17 @@ require('lspkind').init({
       TypeParameter = ""
     },
 })
+```
+
+### Option 2: [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
+
+```lua
+local lspkind = require('lspkind')
+cmp.setup {
+  formatting = {
+    format = lspkind.cmp_format({with_text = false})
+  }
+}
 ```
 
 ## Related LSP plugins
