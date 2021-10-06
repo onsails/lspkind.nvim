@@ -128,6 +128,10 @@ function lspkind.symbolic(kind, opts)
 end
 
 function lspkind.cmp_format(opts)
+  if opts == nil then
+    opts = {}
+  end
+
   return function(entry, vim_item)
     vim_item.kind = lspkind.symbolic(vim_item.kind, opts)
 
