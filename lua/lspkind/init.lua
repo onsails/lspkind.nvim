@@ -130,6 +130,11 @@ end
 function lspkind.cmp_format(opts)
   return function(entry, vim_item)
     vim_item.kind = lspkind.symbolic(vim_item.kind, opts)
+
+    if opts.menu ~= nil then
+      vim_item.menu = opts.menu[entry.source.name]
+    end
+
     return vim_item
   end
 end
