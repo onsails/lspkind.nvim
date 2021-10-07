@@ -139,6 +139,10 @@ function lspkind.cmp_format(opts)
       vim_item.menu = opts.menu[entry.source.name]
     end
 
+    if opts.maxwidth ~= nil then
+        vim_item.abbr = string.sub(vim_item.abbr, 1, opts.maxwidth)
+    end
+
     return vim_item
   end
 end
