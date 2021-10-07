@@ -64,7 +64,7 @@ require('lspkind').init({
 local lspkind = require('lspkind')
 cmp.setup {
   formatting = {
-    format = lspkind.cmp_format({with_text = false})
+    format = lspkind.cmp_format({with_text = false, maxwidth = 50})
   }
 }
 ```
