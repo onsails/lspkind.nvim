@@ -71,4 +71,4 @@ cmp.setup {
 
 ## Related LSP plugins
 
-[vimway-lsp-diag](https://github.com/onsails/vimway-lsp-diag.nvim) – live render workspace diagnostics in quickfix with current buf errors on top, buffer diagnostics in loclist
+[diaglist.nvim](https://github.com/onsails/diaglist.nvim) – live render workspace diagnostics in quickfix with current buf errors on top, buffer diagnostics in loclist
