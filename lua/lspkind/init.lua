@@ -68,12 +68,12 @@ local kind_order = {
 local kind_len = 25
 
 -- default true
-function opt_with_text(opts)
+local function opt_with_text(opts)
   return opts == nil or opts['with_text'] == nil or opts['with_text']
 end
 
 -- default 'default'
-function opt_preset(opts)
+local function opt_preset(opts)
   local preset
   if opts == nil or opts['preset'] == nil then
     preset = 'default'
@@ -84,27 +84,17 @@ function opt_preset(opts)
 end
 
 function lspkind.init(opts)
-  local with_text = opt_with_text(opts)
   local preset = opt_preset(opts)
 
   local symbol_map = kind_presets[preset]
-  local symbol_map = (opts and opts['symbol_map'] and
+  lspkind.symbol_map = (opts and opts['symbol_map'] and
                        vim.tbl_extend('force', symbol_map, opts['symbol_map'])) or symbol_map
 
   local symbols = {}
   local len = kind_len
-  if with_text then
-    for i = 1, len do
-      local name = kind_order[i]
-      local symbol = symbol_map[name]
-      symbol = symbol and (symbol .. ' ') or ''
-      symbols[i] = fmt('%s%s', symbol, name)
-    end
-  else
-    for i = 1, len do
-      local name = kind_order[i]
-      symbols[i] = symbol_map[name]
-    end
+  for i = 1, len do
+    local name = kind_order[i]
+    symbols[i] = lspkind.symbolic(name, opts)
   end
 
   for k,v in pairs(symbols) do
@@ -113,12 +103,12 @@ function lspkind.init(opts)
 end
 
 lspkind.presets = kind_presets
+lspkind.symbol_map = kind_presets.default
 
 function lspkind.symbolic(kind, opts)
   local with_text = opt_with_text(opts)
-  local preset = opt_preset(opts)
 
-  local symbol = kind_presets[preset][kind]
+  local symbol = lspkind.symbol_map[kind]
   if with_text == true then
     symbol = symbol and (symbol .. ' ') or ''
     return fmt('%s%s', symbol, kind)
@@ -130,6 +120,9 @@ end
 function lspkind.cmp_format(opts)
   if opts == nil then
     opts = {}
+  end
+  if opts.preset or opts.symbol_map then
+    lspkind.init(opts)
   end
 
   return function(entry, vim_item)
