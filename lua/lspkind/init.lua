@@ -126,6 +126,10 @@ function lspkind.cmp_format(opts)
   end
 
   return function(entry, vim_item)
+    if opts.before then
+          vim_item = opts.before(entry, vim_item)
+    end
+        
     vim_item.kind = lspkind.symbolic(vim_item.kind, opts)
 
     if opts.menu ~= nil then
