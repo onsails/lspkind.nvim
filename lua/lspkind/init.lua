@@ -72,6 +72,11 @@ local function opt_with_text(opts)
   return opts == nil or opts['with_text'] == nil or opts['with_text']
 end
 
+-- default false
+local function opt_text_only(opts)
+    return opts ~= nil and opts['text_only'] ~= nil and opts['text_only']
+end
+
 -- default 'default'
 local function opt_preset(opts)
   local preset
@@ -107,9 +112,12 @@ lspkind.symbol_map = kind_presets.default
 
 function lspkind.symbolic(kind, opts)
   local with_text = opt_with_text(opts)
+  local text_only = opt_text_only(opts)
 
   local symbol = lspkind.symbol_map[kind]
-  if with_text == true then
+  if text_only == true then
+      return kind
+  elseif with_text == true then
     symbol = symbol and (symbol .. ' ') or ''
     return fmt('%s%s', symbol, kind)
   else

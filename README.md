@@ -18,6 +18,11 @@ require('lspkind').init({
     -- default: true
     with_text = true,
 
+    -- disables icons, overrides with_text to true
+    --
+    -- default: false
+    text_only = false,
+
     -- default symbol map
     -- can be either 'default' (requires nerd-fonts font) or
     -- 'codicons' for codicon preset (requires vscode-codicons font)
