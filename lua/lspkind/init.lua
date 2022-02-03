@@ -93,6 +93,7 @@ local modes = {
 -- default true
 -- deprecated
 local function opt_with_text(opts)
+  vim.api.nvim_command("echoerr 'DEPRECATED replaced by mode option.'")
   return opts == nil or opts['with_text'] == nil or opts['with_text']
 end
 
