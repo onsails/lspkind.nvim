@@ -67,9 +67,45 @@ local kind_order = {
 }
 local kind_len = 25
 
+local function get_symbol(kind) 
+    local symbol = lspkind.symbol_map[kind]
+    return symbol or ''
+end
+
+local modes = { 
+    ['text'] = function(kind)
+        return kind
+    end, 
+    ['text_symbol'] = function(kind)
+        local symbol = get_symbol(kind)
+        return fmt("%s %s", kind, symbol)
+    end, 
+    ['symbol_text'] = function(kind)
+        local symbol = get_symbol(kind)
+        return fmt("%s %s", symbol, kind)
+    end, 
+    ['symbol']  = function(kind)
+        local symbol = get_symbol(kind)
+        return fmt("%s", symbol)
+    end 
+}
+
 -- default true
+-- deprecated
 local function opt_with_text(opts)
+  vim.api.nvim_command("echoerr 'DEPRECATED replaced by mode option.'")
   return opts == nil or opts['with_text'] == nil or opts['with_text']
+end
+
+-- default 'symbol'
+local function opt_mode(opts) 
+    local mode = 'symbol'
+    if opt_with_text(opts) and opts ~= nil and opts['mode'] == nil then
+        mode = 'symbol_text'
+    elseif opts ~= nil and opts['mode'] ~= nil then
+        mode = opts['mode']
+    end
+    return mode
 end
 
 -- default 'default'
@@ -106,15 +142,15 @@ lspkind.presets = kind_presets
 lspkind.symbol_map = kind_presets.default
 
 function lspkind.symbolic(kind, opts)
-  local with_text = opt_with_text(opts)
+  local mode = opt_mode(opts)
+  local formatter = modes[mode]
 
-  local symbol = lspkind.symbol_map[kind]
-  if with_text == true then
-    symbol = symbol and (symbol .. ' ') or ''
-    return fmt('%s%s', symbol, kind)
-  else
-    return symbol
+  -- if someone enters an invalid mode, default to symbol
+  if formatter == nil then
+      formatter = modes['symbol']
   end
+
+  return formatter(kind)
 end
 
 function lspkind.cmp_format(opts)
