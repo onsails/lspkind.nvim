@@ -185,6 +185,7 @@ local kinds = {
 -- Expose presets in public API
 M.presets = kinds.presets
 
+-- Get symbol info
 function H.get_symbol(list, order, item)
   local kind = {}
   for _kind, _idx in pairs(order) do
@@ -201,6 +202,7 @@ function H.get_symbol(list, order, item)
   return kind
 end
 
+-- Symbol modes
 H.modes = {
   text = function(kind)
     return kind.name
@@ -216,29 +218,33 @@ H.modes = {
   end,
 }
 
+-- Default options
 H.defaults = {
   mode = 'symbol_text',
   symbols = 'default',
 }
 
-function H.fmt_kind(mode, _kind, icon)
+-- Format symbols
+function H.fmt_kind(list, order, mode, _kind, icon)
   local kitem = {
-    name = H.get_symbol(kinds.list.cmp, kinds.order.cmp, _kind).name,
+    name = H.get_symbol(list, order, _kind).name,
     icon = icon,
   }
   return H.modes[mode](kitem)
 end
 
-function H.set_symbols(ktype, symbols, mode)
-  local idx
+-- Define symbols
+function H.set_symbols(ktype, order, symbols, mode)
   for kind, icon in pairs(symbols) do
-    if ktype[kind] ~= nil then
-      idx = ktype[kind]
-      ktype[idx] = H.fmt_kind(mode, kind, icon)
+    if ktype[kind] then
+      local idx = ktype[kind]
+      ktype[idx] = H.fmt_kind(ktype, order, mode, kind, icon)
+      print(ktype[idx])
     end
   end
 end
 
+-- Setup plugin
 function M.setup(opts)
   opts = vim.tbl_deep_extend('force', H.defaults, opts or {})
 
@@ -249,10 +255,11 @@ function M.setup(opts)
     M.symbols = vim.tbl_deep_extend('force', kinds.presets.default, opts.symbols)
   end
 
-  H.set_symbols(kinds.list.cmp, M.symbols, opts.mode)
-  H.set_symbols(kinds.list.sym, M.symbols, opts.mode)
+  H.set_symbols(kinds.list.cmp, kinds.order.cmp, M.symbols, opts.mode)
+  H.set_symbols(kinds.list.sym, kinds.order.sym, M.symbols, opts.mode)
 end
 
+-- nvim-cmp
 function M.cmp_format(opts)
   opts = vim.tbl_deep_extend('force', H.defaults, opts or {})
 
