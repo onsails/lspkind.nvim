@@ -239,7 +239,6 @@ function H.set_symbols(ktype, order, symbols, mode)
     if ktype[kind] then
       local idx = ktype[kind]
       ktype[idx] = H.fmt_kind(ktype, order, mode, kind, icon)
-      print(ktype[idx])
     end
   end
 end
