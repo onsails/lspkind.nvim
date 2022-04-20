@@ -242,6 +242,8 @@ function H.set_symbols(ktype, order, symbols, mode)
     end
   end
 end
+-- Expose lspkind.symbols in public API
+M.symbols = kinds.presets.default
 
 -- Setup plugin
 function M.setup(opts)
