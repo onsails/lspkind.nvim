@@ -67,27 +67,27 @@ local kind_order = {
 }
 local kind_len = 25
 
-local function get_symbol(kind) 
+local function get_symbol(kind)
     local symbol = lspkind.symbol_map[kind]
     return symbol or ''
 end
 
-local modes = { 
+local modes = {
     ['text'] = function(kind)
         return kind
-    end, 
+    end,
     ['text_symbol'] = function(kind)
         local symbol = get_symbol(kind)
         return fmt("%s %s", kind, symbol)
-    end, 
+    end,
     ['symbol_text'] = function(kind)
         local symbol = get_symbol(kind)
         return fmt("%s %s", symbol, kind)
-    end, 
+    end,
     ['symbol']  = function(kind)
         local symbol = get_symbol(kind)
         return fmt("%s", symbol)
-    end 
+    end
 }
 
 -- default true
@@ -97,7 +97,7 @@ local function opt_with_text(opts)
 end
 
 -- default 'symbol'
-local function opt_mode(opts) 
+local function opt_mode(opts)
     local mode = 'symbol'
     if opt_with_text(opts) and opts ~= nil and opts['mode'] == nil then
         mode = 'symbol_text'
@@ -167,7 +167,7 @@ function lspkind.cmp_format(opts)
     if opts.before then
           vim_item = opts.before(entry, vim_item)
     end
-        
+
     vim_item.kind = lspkind.symbolic(vim_item.kind, opts)
 
     if opts.menu ~= nil then
@@ -175,9 +175,15 @@ function lspkind.cmp_format(opts)
     end
 
     if opts.maxwidth ~= nil then
-        vim_item.abbr = string.sub(vim_item.abbr, 1, opts.maxwidth)
+	if opts.ellipsis_char == nil then
+		opts.ellipsis_char="..."
+	end
+	local label = vim_item.abbr
+        local truncated_label = vim.fn.strcharpart(label, 0, opts.maxwidth)
+        if truncated_label ~= label then
+          vim_item.abbr = truncated_label .. opts.ellipsis_char
+	end
     end
-
     return vim_item
   end
 end
