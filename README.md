@@ -55,7 +55,7 @@ require('lspkind').init({
       Folder = "",
       EnumMember = "",
       Constant = "",
-      Struct = "פּ",
+      Struct = "",
       Event = "",
       Operator = "",
       TypeParameter = ""
