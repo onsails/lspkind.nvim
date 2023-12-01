@@ -193,7 +193,7 @@ function lspkind.cmp_format(opts)
     vim_item.kind = lspkind.symbolic(vim_item.kind, opts)
 
     if opts.menu ~= nil then
-      vim_item.menu = opts.menu[entry.source.name]
+      vim_item.menu = (vim_item.menu == nil and "" or vim_item.menu) .. (opts.menu[entry.source.name] == nil and "" or opts.menu[entry.source.name])
     end
 
     if opts.maxwidth ~= nil then
@@ -212,3 +212,4 @@ function lspkind.cmp_format(opts)
 end
 
 return lspkind
+
