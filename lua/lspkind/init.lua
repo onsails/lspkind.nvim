@@ -197,11 +197,12 @@ function lspkind.cmp_format(opts)
     end
 
     if opts.maxwidth ~= nil then
+      local maxwidth = type(opts.maxwidth) == "function" and opts.maxwidth() or opts.maxwidth
       if opts.ellipsis_char == nil then
-        vim_item.abbr = string.sub(vim_item.abbr, 1, opts.maxwidth)
+        vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
       else
         local label = vim_item.abbr
-        local truncated_label = vim.fn.strcharpart(label, 0, opts.maxwidth)
+        local truncated_label = vim.fn.strcharpart(label, 0, maxwidth)
         if truncated_label ~= label then
           vim_item.abbr = truncated_label .. opts.ellipsis_char
         end
@@ -212,4 +213,3 @@ function lspkind.cmp_format(opts)
 end
 
 return lspkind
-
