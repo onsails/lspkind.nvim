@@ -16,6 +16,7 @@ This tiny plugin adds vscode-like pictograms to neovim built-in lsp:
 Wherever you configure lsp put the following lua command:
 
 ```lua
+-- setup() is also available as an alias
 require('lspkind').init({
     -- DEPRECATED (use mode instead): enables text annotations
     --
