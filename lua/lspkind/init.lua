@@ -162,6 +162,7 @@ function lspkind.init(opts)
   end
 end
 
+lspkind.setup = lspkind.init
 lspkind.presets = kind_presets
 lspkind.symbol_map = kind_presets.default
 
