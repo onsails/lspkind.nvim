@@ -204,6 +204,10 @@ function lspkind.cmp_format(opts)
         vim_item.abbr = vim.fn.strcharpart(vim_item.abbr, 0, maxwidth)
           .. (opts.ellipsis_char ~= nil and opts.ellipsis_char or "")
       end
+      if vim.fn.strchars(vim_item.menu) > maxwidth then
+        vim_item.menu = vim.fn.strcharpart(vim_item.menu, 0, maxwidth)
+          .. (opts.ellipsis_char ~= nil and opts.ellipsis_char or "")
+      end
     end
     return vim_item
   end
