@@ -178,6 +178,14 @@ function lspkind.symbolic(kind, opts)
   return formatter(kind)
 end
 
+local function abbreviateString(str, maxwidth, ellipsis_char)
+  if vim.fn.strchars(str) > maxwidth then
+    str = vim.fn.strcharpart(str, 0, maxwidth) .. (ellipsis_char ~= nil and ellipsis_char or "")
+  end
+
+  return str
+end
+
 function lspkind.cmp_format(opts)
   if opts == nil then
     opts = {}
@@ -199,12 +207,13 @@ function lspkind.cmp_format(opts)
     end
 
     if opts.maxwidth ~= nil then
+      local ellipsis_char = opts.ellipsis_char
       local maxwidth = type(opts.maxwidth) == "function" and opts.maxwidth() or opts.maxwidth
-      if vim.fn.strchars(vim_item.abbr) > maxwidth then
-        vim_item.abbr = vim.fn.strcharpart(vim_item.abbr, 0, maxwidth)
-          .. (opts.ellipsis_char ~= nil and opts.ellipsis_char or "")
-      end
+
+      vim_item.abbr = abbreviateString(vim_item.abbr, maxwidth, ellipsis_char)
+      vim_item.menu = abbreviateString(vim_item.menu, maxwidth, ellipsis_char)
     end
+
     return vim_item
   end
 end
