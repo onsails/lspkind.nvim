@@ -1,13 +1,37 @@
-# lspkind-nvim
+# lspkind.nvim
 
-This tiny plugin adds vscode-like pictograms to neovim built-in lsp:
+> VS Code–style pictograms for Neovim completion items
+
+[![GitHub Stars](https://img.shields.io/github/stars/onsails/lspkind.nvim?style=flat)](https://github.com/onsails/lspkind.nvim)
+[![License](https://img.shields.io/badge/license-MIT-informational.svg)](./LICENSE)
+[![Neovim](https://img.shields.io/badge/Neovim-%E2%89%A5%200.7-blue.svg)](https://neovim.io/)
+
+**lspkind.nvim** adds a clear, consistent iconography layer to Neovim’s completion UI (LSP, snippets, paths, etc.). It improves scanability of completion menus, making intent and item type obvious at a glance.
 
 ![Screenshot](https://github.com/onsails/lspkind-nvim/raw/images/images/screenshot.png "Screenshot")
 <sup>[nvim-compe](https://github.com/hrsh7th/nvim-compe), [vim-vsnip](https://github.com/hrsh7th/vim-vsnip), [vim-vsnip-integ](https://github.com/hrsh7th/vim-vsnip-integ), [jellybeans-nvim](https://github.com/metalelf0/jellybeans-nvim)</sup>
 
+---
+
+## Features
+
+* **Readable completion menus** with VS Code–like pictograms
+* **Drop-in integration** with `nvim-cmp` via `lspkind.cmp_format`
+* **Two presets** out of the box: `default` (Nerd Fonts) and `codicons`
+* **Fully customizable** symbol map per kind and per external source
+* **Zero heavy deps**; tiny footprint and straightforward Lua API
+
+---
+
 ## Requirements
 
-- [A patched font](https://www.nerdfonts.com/)
+* Neovim **0.7+**
+* A patched icon font:
+
+  * **Nerd Fonts** for `preset = 'default'` → [https://www.nerdfonts.com/](https://www.nerdfonts.com/)
+  * **VS Code Codicons** for `preset = 'codicons'` → [https://github.com/microsoft/vscode-codicons](https://github.com/microsoft/vscode-codicons)
+
+---
 
 ## Configuration
 
