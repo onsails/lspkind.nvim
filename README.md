@@ -42,16 +42,6 @@ Wherever you configure lsp put the following lua command:
 ```lua
 -- setup() is also available as an alias
 require('lspkind').init({
-    -- DEPRECATED (use mode instead): enables text annotations
-    --
-    -- default: true
-    -- with_text = true,
-
-    -- defines how annotations are shown
-    -- default: symbol
-    -- options: 'text', 'text_symbol', 'symbol_text', 'symbol'
-    mode = 'symbol_text',
-
     -- default symbol map
     -- can be either 'default' (requires nerd-fonts font) or
     -- 'codicons' for codicon preset (requires vscode-codicons font)
@@ -98,8 +88,8 @@ require('lspkind').init({
 local lspkind = require('lspkind')
 cmp.setup {
   formatting = {
+    fields = { 'abbr', 'icon', 'kind', 'menu' },
     format = lspkind.cmp_format({
-      mode = 'symbol', -- show only symbol annotations
       maxwidth = {
         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
         -- can also be a function to dynamically calculate max width such as
