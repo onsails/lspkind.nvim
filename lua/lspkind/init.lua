@@ -1,4 +1,5 @@
 local lspkind = {}
+local fmt = string.format
 
 local kind_presets = {
   default = {
@@ -59,6 +60,58 @@ local kind_presets = {
   },
 }
 
+local kind_order = {
+  "Text",
+  "Method",
+  "Function",
+  "Constructor",
+  "Field",
+  "Variable",
+  "Class",
+  "Interface",
+  "Module",
+  "Property",
+  "Unit",
+  "Value",
+  "Enum",
+  "Keyword",
+  "Snippet",
+  "Color",
+  "File",
+  "Reference",
+  "Folder",
+  "EnumMember",
+  "Constant",
+  "Struct",
+  "Event",
+  "Operator",
+  "TypeParameter",
+}
+
+local modes = {
+  ["text"] = function(kind)
+    return kind
+  end,
+  ["text_symbol"] = function(kind)
+    return fmt("%s %s", kind, lspkind.symbol_map[kind])
+  end,
+  ["symbol_text"] = function(kind)
+    return fmt("%s %s", lspkind.symbol_map[kind], kind)
+  end,
+  ["symbol"] = function(kind)
+    return fmt("%s", lspkind.symbol_map[kind])
+  end,
+}
+
+-- default 'symbol'
+local function opt_mode(opts)
+  local mode = "symbol"
+  if opts ~= nil and opts["mode"] ~= nil then
+    mode = opts["mode"]
+  end
+  return mode
+end
+
 -- default 'default'
 local function opt_preset(opts)
   local preset
@@ -70,12 +123,21 @@ local function opt_preset(opts)
   return preset
 end
 
-function lspkind.init(opts)
+local function opt_symbol_map(opts)
   local preset = opt_preset(opts)
 
   local symbol_map = kind_presets[preset]
   lspkind.symbol_map = (opts and opts["symbol_map"] and vim.tbl_extend("force", symbol_map, opts["symbol_map"]))
     or symbol_map
+end
+
+function lspkind.init(opts)
+  opt_symbol_map(opts)
+
+  local mode = opt_mode(opts)
+  for i, kind in ipairs(kind_order) do
+    vim.lsp.protocol.CompletionItemKind[i] = modes[mode](kind)
+  end
 end
 
 lspkind.setup = lspkind.init
@@ -95,7 +157,7 @@ function lspkind.cmp_format(opts)
     opts = {}
   end
   if opts.preset or opts.symbol_map then
-    lspkind.init(opts)
+    opt_symbol_map(opts)
   end
 
   if not opts.maxwidth or type(opts.maxwidth) == "number" or type(opts.maxwidth) == "function" then
