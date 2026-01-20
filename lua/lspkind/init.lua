@@ -144,6 +144,11 @@ lspkind.setup = lspkind.init
 lspkind.presets = kind_presets
 lspkind.symbol_map = kind_presets.default
 
+-- This function is for backward compatibility with other plugins
+function lspkind.symbolic(kind)
+  return lspkind.symbol_map[kind] or ""
+end
+
 local function abbreviateString(str, maxwidth, ellipsis_char)
   if vim.fn.strchars(str) > maxwidth then
     str = vim.fn.strcharpart(str, 0, maxwidth) .. ellipsis_char
