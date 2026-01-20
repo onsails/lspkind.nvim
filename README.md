@@ -116,6 +116,24 @@ cmp.setup {
 }
 ```
 
+### Option 3: [blink.cmp](https://github.com/saghen/blink.cmp)
+
+```lua
+completion = {
+  menu = {
+    draw = {
+      components = {
+        kind_icon = {
+          text = function(ctx)
+            return require('lspkind').symbol_map[ctx.kind] or ''
+          end,
+        },
+      },
+    },
+  },
+}
+```
+
 ## Related LSP plugins
 
 [diaglist.nvim](https://github.com/onsails/diaglist.nvim) – live render workspace diagnostics in quickfix with current buf errors on top, buffer diagnostics in loclist
