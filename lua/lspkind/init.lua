@@ -188,9 +188,9 @@ end
 function lspkind.init(opts)
   opt_symbol_map(opts)
 
-  local mode = opt_mode(opts)
+  local mode = modes[opt_mode(opts)]
   for i, kind in ipairs(kind_order) do
-    vim.lsp.protocol.CompletionItemKind[i] = modes[mode](kind)
+    vim.lsp.protocol.CompletionItemKind[i] = mode(kind)
   end
 end
 
