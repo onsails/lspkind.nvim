@@ -234,12 +234,12 @@ function lspkind.cmp_format(opts)
       vim_item = opts.before(entry, vim_item)
     end
 
-    if opts.menu ~= nil then
+    if opts.menu then
       vim_item.menu = (opts.menu[entry.source.name] ~= nil and opts.menu[entry.source.name] or "")
         .. ((opts.show_labelDetails and vim_item.menu ~= nil) and vim_item.menu or "")
     end
 
-    local ellipsis_char = opts.ellipsis_char ~= nil and opts.ellipsis_char or ""
+    local ellipsis_char = opts.ellipsis_char or ""
 
     if opts.maxwidth.menu then
       local maxwidth = opts.maxwidth.menu
