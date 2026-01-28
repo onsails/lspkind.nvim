@@ -1,7 +1,67 @@
+---@class Lspkind
+---@field symbol_map SymbolMap
 local lspkind = {}
-local fmt = string.format
 
-local kind_presets = {
+---@class LspkindOpts
+---@field mode? "text"|"text_symbol"|"symbol_text"|"symbol"
+---@field preset? "default"|"codicons"
+---@field symbol_map? SymbolMap
+
+---@alias SymbolKind
+---|"Class"
+---|"Color"
+---|"Constant"
+---|"Constructor"
+---|"Enum"
+---|"EnumMember"
+---|"Event"
+---|"Field"
+---|"File"
+---|"Folder"
+---|"Function"
+---|"Interface"
+---|"Keyword"
+---|"Method"
+---|"Module"
+---|"Operator"
+---|"Property"
+---|"Reference"
+---|"Snippet"
+---|"Struct"
+---|"Text"
+---|"TypeParameter"
+---|"Unit"
+---|"Value"
+---|"Variable"
+
+---@class SymbolMap
+---@field Class string
+---@field Color string
+---@field Constant string
+---@field Constructor string
+---@field Enum string
+---@field EnumMember string
+---@field Event string
+---@field Field string
+---@field File string
+---@field Folder string
+---@field Function string
+---@field Interface string
+---@field Keyword string
+---@field Method string
+---@field Module string
+---@field Operator string
+---@field Property string
+---@field Reference string
+---@field Snippet string
+---@field Struct string
+---@field Text string
+---@field TypeParameter string
+---@field Unit string
+---@field Value string
+---@field Variable string
+
+local kind_presets = { ---@type table<"default"|"codicons", SymbolMap>
   default = {
     -- if you change or add symbol here
     -- replace corresponding line in readme
@@ -88,49 +148,43 @@ local kind_order = {
   "TypeParameter",
 }
 
+---@type table<"text"|"text_symbol"|"symbol_text"|"symbol", fun(kind: SymbolKind): string>
 local modes = {
-  ["text"] = function(kind)
+  text = function(kind)
     return kind
   end,
-  ["text_symbol"] = function(kind)
-    return fmt("%s %s", kind, lspkind.symbol_map[kind])
+  text_symbol = function(kind)
+    return ("%s %s"):format(kind, lspkind.symbol_map[kind])
   end,
-  ["symbol_text"] = function(kind)
-    return fmt("%s %s", lspkind.symbol_map[kind], kind)
+  symbol_text = function(kind)
+    return ("%s %s"):format(lspkind.symbol_map[kind], kind)
   end,
-  ["symbol"] = function(kind)
-    return fmt("%s", lspkind.symbol_map[kind])
+  symbol = function(kind)
+    return ("%s"):format(lspkind.symbol_map[kind])
   end,
 }
 
 -- default 'symbol'
+---@param opts? LspkindOpts
+---@return "text"|"text_symbol"|"symbol_text"|"symbol" mode
 local function opt_mode(opts)
-  local mode = "symbol"
-  if opts ~= nil and opts["mode"] ~= nil then
-    mode = opts["mode"]
-  end
-  return mode
+  return (opts and opts.mode) and opts.mode or "symbol"
 end
 
 -- default 'default'
+---@param opts? LspkindOpts
+---@return "codicons"|"default" preset
 local function opt_preset(opts)
-  local preset
-  if opts == nil or opts["preset"] == nil then
-    preset = "default"
-  else
-    preset = opts["preset"]
-  end
-  return preset
+  return (opts and opts.preset) and opts.preset or "default"
 end
 
+---@param opts? LspkindOpts
 local function opt_symbol_map(opts)
-  local preset = opt_preset(opts)
-
-  local symbol_map = kind_presets[preset]
-  lspkind.symbol_map = (opts and opts["symbol_map"] and vim.tbl_extend("force", symbol_map, opts["symbol_map"]))
-    or symbol_map
+  local symbol_map = kind_presets[opt_preset(opts)]
+  lspkind.symbol_map = (opts and opts.symbol_map) and vim.tbl_extend("force", symbol_map, opts.symbol_map) or symbol_map
 end
 
+---@param opts? LspkindOpts
 function lspkind.init(opts)
   opt_symbol_map(opts)
 
@@ -145,22 +199,25 @@ lspkind.presets = kind_presets
 lspkind.symbol_map = kind_presets.default
 
 -- This function is for backward compatibility with other plugins
+---@param kind SymbolKind
+---@return string symbol
 function lspkind.symbolic(kind)
   return lspkind.symbol_map[kind] or ""
 end
 
+---@param str string
+---@param maxwidth integer
+---@param ellipsis_char string
 local function abbreviateString(str, maxwidth, ellipsis_char)
   if vim.fn.strchars(str) > maxwidth then
-    str = vim.fn.strcharpart(str, 0, maxwidth) .. ellipsis_char
+    return vim.fn.strcharpart(str, 0, maxwidth) .. ellipsis_char
   end
 
   return str
 end
 
 function lspkind.cmp_format(opts)
-  if opts == nil then
-    opts = {}
-  end
+  opts = opts or {}
   if opts.preset or opts.symbol_map then
     opt_symbol_map(opts)
   end
