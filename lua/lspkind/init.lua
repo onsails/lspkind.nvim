@@ -209,6 +209,14 @@ end
 ---@param maxwidth integer
 ---@param ellipsis_char string
 local function abbreviateString(str, maxwidth, ellipsis_char)
+  if not str or #str <= maxwidth then
+    return str
+  end
+
+  if not str:find("[\128-\255]") then
+    return str:sub(1, math.max(maxwidth, 0)) .. ellipsis_char
+  end
+
   if vim.fn.strchars(str) > maxwidth then
     return vim.fn.strcharpart(str, 0, maxwidth) .. ellipsis_char
   end
